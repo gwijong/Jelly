@@ -20,13 +20,14 @@ public class Jelly : MonoBehaviour
     bool idle = true;
     bool walk = false;
     bool timer = false;
-    bool Outside = false;
+    bool outside = false;
+
     Vector3 point;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -43,17 +44,17 @@ public class Jelly : MonoBehaviour
         {
             Walk();
         }
-
+        Touch();
     }
 
     IEnumerator StateTimer()
-    {
+    {     
         yield return new WaitForSeconds(Random.Range(minTimerRange, maxTimerRange));
         if (idle == true)
         {
             Idle();
             idle = false;
-        } 
+        }
         else if (idle == false)
         {
             SetWalk();
@@ -70,12 +71,12 @@ public class Jelly : MonoBehaviour
     void SetWalk()
     {
         walk = true;
-        if(Outside == false)
+        if (outside == false)
         {
             speedX = Random.Range(-0.8f, 0.8f);
             speedY = Random.Range(-0.8f, 0.8f);
         }
-        if(Outside == true)
+        if (outside == true)
         {
             speedX = (point - this.gameObject.transform.position).normalized.x;
             speedY = (point - this.gameObject.transform.position).normalized.y;
@@ -88,7 +89,7 @@ public class Jelly : MonoBehaviour
         else
         {
             this.gameObject.GetComponent<SpriteRenderer>().flipX = false;
-        }    
+        }
 
         this.gameObject.GetComponent<Animator>().SetBool("isWalk", true);
     }
@@ -100,20 +101,40 @@ public class Jelly : MonoBehaviour
     void CheckBorder()
     {
         if (this.gameObject.transform.position.x < topLeft.transform.position.x || this.gameObject.transform.position.x > bottomRight.transform.position.x)
-        {        
-            Outside = true;       
-        }else if (this.gameObject.transform.position.y> topLeft.transform.position.y || this.gameObject.transform.position.y < bottomRight.transform.position.y)
         {
-            Outside = true;
+            outside = true;
+        }
+        else if (this.gameObject.transform.position.y > topLeft.transform.position.y || this.gameObject.transform.position.y < bottomRight.transform.position.y)
+        {
+            outside = true;
         }
         else
         {
-            Outside = false;
-        }       
+            outside = false;
+        }
     }
 
     void SetPoint()
     {
         point = Manager.GetComponent<GameManager>().PointList[Random.Range(0, 2)];
+    }
+
+    void Touch()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+            if (hit.collider.tag=="Jelly")
+            {
+                this.gameObject.GetComponent<Animator>().SetTrigger("doTouch");
+                speedX = 0;
+                speedY = 0;
+
+                StopCoroutine("StateTimer");
+                StartCoroutine("StateTimer");
+            }
+        }
     }
 }
