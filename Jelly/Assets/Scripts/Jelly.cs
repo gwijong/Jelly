@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Jelly : MonoBehaviour
 {
     [SerializeField]
@@ -12,6 +13,12 @@ public class Jelly : MonoBehaviour
     float speedX = 1;
     [SerializeField]
     float speedY = 1;
+    [SerializeField]
+    int id = 0;
+    [SerializeField]
+    int level = 1;
+    [SerializeField]
+    float exp = 0;
 
     public GameObject topLeft;
     public GameObject bottomRight;
@@ -33,6 +40,8 @@ public class Jelly : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SetExp();
+
         CheckBorder();
 
         if (timer == false)
@@ -126,15 +135,47 @@ public class Jelly : MonoBehaviour
             
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+
+            if(hit.collider == null)
+            {
+                return;
+            }
+
             if (hit.collider.tag=="Jelly")
             {
+                exp = exp + 1;
+                GelatinCoin.getGelatin(id+1, level);
                 this.gameObject.GetComponent<Animator>().SetTrigger("doTouch");
                 speedX = 0;
                 speedY = 0;
 
                 StopCoroutine("StateTimer");
                 StartCoroutine("StateTimer");
-            }
+            }          
         }
     }
+
+    void SetExp()
+    {
+        exp = exp + Time.deltaTime;
+        if (level == 3)
+        {
+            return;
+        }
+
+        if (exp<(50 * level))
+        {
+            return;
+        }
+
+        if (exp >= (50 * level))
+        {
+            level = level + 1;
+            exp = 0;
+            Manager.GetComponent<GameManager>().ChangeAc(this.gameObject.GetComponent<Animator>(),level);
+        }
+
+    }
+
 }
+

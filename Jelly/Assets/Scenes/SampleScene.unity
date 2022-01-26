@@ -692,6 +692,7 @@ GameObject:
   - component: {fileID: 704400141}
   - component: {fileID: 704400142}
   - component: {fileID: 704400143}
+  - component: {fileID: 704400144}
   m_Layer: 0
   m_Name: Jelly
   m_TagString: Jelly
@@ -775,7 +776,7 @@ Animator:
   m_GameObject: {fileID: 704400138}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0d3842a994495234589cb6d54c1215e2, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8c7845f2d3a629943afc1519da279300, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -800,6 +801,9 @@ MonoBehaviour:
   maxTimerRange: 2
   speedX: 1
   speedY: 1
+  id: 0
+  level: 1
+  exp: 0
   topLeft: {fileID: 170613734}
   bottomRight: {fileID: 1791085767}
   Manager: {fileID: 1009760427}
@@ -819,6 +823,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &704400144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704400138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a124853c3fb7204d8a2178b1b4750e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 704400139}
 --- !u!1 &755306365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +1116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5aee2bc9e7a574ca8ef31237a3faf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
   gelatin: 0
   text: {fileID: 2085738024}
 --- !u!1 &881062945
@@ -1255,6 +1271,10 @@ MonoBehaviour:
   - {x: -3, y: -1, z: -1}
   - {x: 0, y: 0, z: 0}
   - {x: 3, y: -1, z: -1}
+  LevelAc:
+  - {fileID: 9100000, guid: 8c7845f2d3a629943afc1519da279300, type: 2}
+  - {fileID: 9100000, guid: cf4db5108a8b1874692fcde7c19517c8, type: 2}
+  - {fileID: 9100000, guid: 0d3842a994495234589cb6d54c1215e2, type: 2}
 --- !u!4 &1009760429
 Transform:
   m_ObjectHideFlags: 0
@@ -1919,7 +1939,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 999999999
+  m_Text: 100
 --- !u!222 &1461684399
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2681,7 +2701,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 999999999
+  m_Text: 100
 --- !u!222 &2085738025
 CanvasRenderer:
   m_ObjectHideFlags: 0
