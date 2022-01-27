@@ -13,10 +13,9 @@ public class Jelly : MonoBehaviour
     float speedX = 1;
     [SerializeField]
     float speedY = 1;
-    [SerializeField]
-    int id = 0;
-    [SerializeField]
-    int level = 1;
+    public static int id { get; set; }
+    public static int level { get; set; }
+
     [SerializeField]
     float exp = 0;
 
@@ -27,14 +26,16 @@ public class Jelly : MonoBehaviour
     bool idle = true;
     bool walk = false;
     bool timer = false;
-    bool outside = false;
+    public static bool outside{ get; set; }
 
     Vector3 point;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        id = 0;
+        level = 1;
+        outside = false;
     }
 
     // Update is called once per frame
@@ -125,7 +126,7 @@ public class Jelly : MonoBehaviour
 
     void SetPoint()
     {
-        point = Manager.GetComponent<GameManager>().PointList[Random.Range(0, 2)];
+        point = Manager.GetComponent<GameManager>().PointList[Random.Range(0, 3)];
     }
 
     void Touch()

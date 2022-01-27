@@ -9,10 +9,13 @@ public class DragAndDropItem : MonoBehaviour
     bool isBeingHeld = false;
     float timer = 0.5f;
     bool timeCheck = false;
+    public static GameObject manager;
+    public static GameObject jelly; 
 
     private void Start()
     {
-
+        jelly = this.gameObject;
+        manager = jelly.GetComponent<Jelly>().Manager;
     }
     private void Update()
     {
@@ -53,9 +56,16 @@ public class DragAndDropItem : MonoBehaviour
         timer = 0.5f;
         spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
         isBeingHeld = false;
+        if(Jelly.outside == true)
+        {
+            Return();
+        }
     }
 
-
+    public static void Return()
+    {
+        jelly.transform.position = manager.GetComponent<GameManager>().PointList[Random.Range(0, 3)];
+    }
 
 
 }

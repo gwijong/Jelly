@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int[] jellyGoldList;
     public Vector3[] PointList;
 
     public RuntimeAnimatorController[] LevelAc;

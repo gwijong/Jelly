@@ -801,8 +801,6 @@ MonoBehaviour:
   maxTimerRange: 2
   speedX: 1
   speedY: 1
-  id: 0
-  level: 1
   exp: 0
   topLeft: {fileID: 170613734}
   bottomRight: {fileID: 1791085767}
@@ -1130,6 +1128,8 @@ GameObject:
   - component: {fileID: 881062949}
   - component: {fileID: 881062948}
   - component: {fileID: 881062947}
+  - component: {fileID: 881062951}
+  - component: {fileID: 881062950}
   m_Layer: 5
   m_Name: SellButton
   m_TagString: Untagged
@@ -1238,6 +1238,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881062945}
   m_CullTransparentMesh: 1
+--- !u!114 &881062950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881062945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 881062951}
+          m_TargetAssemblyTypeName: ButtonSell, Assembly-CSharp
+          m_MethodName: Sell
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &881062951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881062945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8532d9fc51901064e9161e1f05868df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1009760427
 GameObject:
   m_ObjectHideFlags: 0
@@ -1267,6 +1308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718650aa0c484f848aea57cd438b7e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jellyGoldList: 64000000c8000000f4010000e8030000dc050000d0070000b80b0000881300004c1d000010270000a861000050c30000
   PointList:
   - {x: -3, y: -1, z: -1}
   - {x: 0, y: 0, z: 0}
@@ -1939,7 +1981,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 1
 --- !u!222 &1461684399
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2039,9 +2081,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d71abb403d45f6469dd453db3cebabf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 0
   gold: 0
   text: {fileID: 1461684398}
+  manager: {fileID: 1009760427}
 --- !u!1 &1515868017
 GameObject:
   m_ObjectHideFlags: 0
