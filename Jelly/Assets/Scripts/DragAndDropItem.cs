@@ -6,16 +6,17 @@ public class DragAndDropItem : MonoBehaviour
 {
     [SerializeField] SpriteRenderer spriteRenderer;
 
-    bool isBeingHeld = false;
+    bool Hold = false;
     float timer = 0.5f;
     bool timeCheck = false;
-    public static GameObject manager;
-    public static GameObject jelly; 
+    bool col = false;
+    GameObject manager;
+    public GameObject jelly{ get; set; }
 
     private void Start()
     {
         jelly = this.gameObject;
-        manager = jelly.GetComponent<Jelly>().Manager;
+        manager = GameObject.Find("GameManager");
     }
     private void Update()
     {
@@ -24,12 +25,12 @@ public class DragAndDropItem : MonoBehaviour
             timer = timer - Time.deltaTime;
         }
 
-        if (isBeingHeld)
+        if (Hold)
         {
             Vector2 mousePos;
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            this.gameObject.transform.position = new Vector2(mousePos.x, mousePos.y);
+            jelly.transform.position = new Vector2(mousePos.x, mousePos.y);
         }
     }
 
@@ -45,27 +46,55 @@ public class DragAndDropItem : MonoBehaviour
                 spriteRenderer.color = new Color(1f, 1f, 1f, .5f);
                 Vector3 mousePos;
                 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                isBeingHeld = true;
+                Hold = true;
             }
         }
     }
 
     private void OnMouseUp()
     {
-        timeCheck = false;
-        timer = 0.5f;
-        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
-        isBeingHeld = false;
-        if(Jelly.outside == true)
+        if(col == false)
         {
-            Return();
+            timeCheck = false;
+            timer = 0.5f;
+            spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+            Hold = false;
+            if (Jelly.outside == true)
+            {
+                Return();
+            }
+        }else if (col == true)
+        {
+            Sell();
+            Destroy(jelly);
+            col = false;
         }
     }
 
-    public static void Return()
+    public void Return()
     {
         jelly.transform.position = manager.GetComponent<GameManager>().PointList[Random.Range(0, 3)];
     }
 
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "SellButton")
+        {
+            col = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "SellButton")
+        {
+            col = false;
+        }
+    }
+
+    public void Sell()
+    {
+        GameObject.Find("RightText").GetComponent<GoldCoin>().SellJelly();
+    }
 
 }

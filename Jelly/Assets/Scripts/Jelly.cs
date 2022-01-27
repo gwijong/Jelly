@@ -145,7 +145,7 @@ public class Jelly : MonoBehaviour
             if (hit.collider.tag=="Jelly")
             {
                 exp = exp + 1;
-                GelatinCoin.getGelatin(id+1, level);
+                GameObject.Find("LeftText").GetComponent<GelatinCoin>().getGelatin(id+1, level);
                 this.gameObject.GetComponent<Animator>().SetTrigger("doTouch");
                 speedX = 0;
                 speedY = 0;

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ButtonSell : MonoBehaviour
 {
-
     // Start is called before the first frame update
     void Start()
     {
@@ -17,13 +16,8 @@ public class ButtonSell : MonoBehaviour
 
     }
 
-    public void Sell()
-    {
-        //GoldCoin.SellJelly();
-    }
 
-    public void Return()
-    {
-        DragAndDropItem.Return();
-    }
+
+
+
 }

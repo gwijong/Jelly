@@ -5,24 +5,19 @@ using UnityEngine.UI;
 
 public class GoldCoin : MonoBehaviour
 {
-    public static int value = 0;
-    [SerializeField]
-    int gold = 0;
+    int value = 0;
+    public int gold = 0;
     [SerializeField]
     Text text;
-    public static GameObject Manager;
-    public GameObject manager;
     void Start()
     {
-        Manager = manager;
         GetVariable();
     }
 
     private void LateUpdate()
     {
-        StartCoroutine("MoneyTimer");
-        gold = (int)Mathf.SmoothStep(value, gold, 0.5f);
-        text.text = $"{gold}";
+        value = (int)Mathf.SmoothStep(int.Parse(text.text), gold, 0.5f) + 1;
+        text.text = $"{value}";
         if (value > 99999999 || gold > 99999999)
         {
             value = 99999999;
@@ -33,24 +28,20 @@ public class GoldCoin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SellJelly();
+        //SellJelly();
     }
 
     void GetVariable()
     {
-        value = int.Parse(text.text);
+        gold = int.Parse(text.text);
     }
 
-    public static void SellJelly()
+    public void SellJelly() 
     {       
         int level = Jelly.level;
         int id = Jelly.id;
-        int goldList = Manager.GetComponent<GameManager>().jellyGoldList[id];
-        value = level * goldList;
+        int goldList = GameObject.Find("GameManager").GetComponent<GameManager>().jellyGoldList[id];
+        gold = gold +(level * goldList);
     }
-    IEnumerator MoneyTimer()
-    {
-        yield return new WaitForSeconds(0.5f);
-        value = gold;
-    }
+
 }

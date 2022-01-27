@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GelatinCoin : MonoBehaviour
 {
     [SerializeField]
-    public static int value = 0;
+    int value = 0;
     [SerializeField]
     int gelatin = 0;
     [SerializeField]
@@ -20,8 +20,8 @@ public class GelatinCoin : MonoBehaviour
 
     private void LateUpdate()
     {
-        gelatin = (int)Mathf.SmoothStep(value, gelatin, 0.5f);
-        text.text = $"{gelatin}";
+        value = (int)Mathf.SmoothStep(int.Parse(text.text), gelatin, 0.5f);
+        text.text = $"{value}";
         if (value > 99999999 || gelatin > 99999999)
         {
             value = 99999999;
@@ -37,11 +37,11 @@ public class GelatinCoin : MonoBehaviour
 
     void GetVariable()
     {
-        value = int.Parse(text.text);
+        gelatin = int.Parse(text.text);
     }
 
-    public static void getGelatin(int id, int level)
+    public void getGelatin(int id, int level)
     {
-        value = value + id * level;
+        gelatin = gelatin + id * level;
     }
 }
