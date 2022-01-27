@@ -59,7 +59,7 @@ public class DragAndDropItem : MonoBehaviour
             timer = 0.5f;
             spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
             Hold = false;
-            if (Jelly.outside == true)
+            if (this.gameObject.GetComponent<Jelly>().outside == true)
             {
                 Return();
             }
@@ -94,7 +94,7 @@ public class DragAndDropItem : MonoBehaviour
 
     public void Sell()
     {
-        GameObject.Find("RightText").GetComponent<GoldCoin>().SellJelly();
+        GameObject.Find("RightText").GetComponent<GoldCoin>().SellJelly(this.GetComponent<Jelly>());
     }
 
 }

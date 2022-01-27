@@ -18,9 +18,8 @@ public class GoldCoin : MonoBehaviour
     {
         value = (int)Mathf.SmoothStep(int.Parse(text.text), gold, 0.5f) + 1;
         text.text = $"{value}";
-        if (value > 99999999 || gold > 99999999)
+        if (gold > 99999999)
         {
-            value = 99999999;
             gold = 99999999;
         }
     }
@@ -36,12 +35,13 @@ public class GoldCoin : MonoBehaviour
         gold = int.Parse(text.text);
     }
 
-    public void SellJelly() 
+    public void SellJelly(Jelly jelly) 
     {       
-        int level = Jelly.level;
-        int id = Jelly.id;
+        int level = jelly.level;
+        int id = jelly.id;
         int goldList = GameObject.Find("GameManager").GetComponent<GameManager>().jellyGoldList[id];
         gold = gold +(level * goldList);
+        Destroy(jelly.gameObject);
     }
 
 }

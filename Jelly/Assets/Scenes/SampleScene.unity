@@ -512,6 +512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 519420032}
+  - component: {fileID: 519420033}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
@@ -577,7 +578,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 3.75
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -607,6 +608,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20aa37eecb2604489ca4a0413c18185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grabDelay: 0.5
 --- !u!1 &580510753
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,7 +806,6 @@ GameObject:
   - component: {fileID: 704400141}
   - component: {fileID: 704400142}
   - component: {fileID: 704400143}
-  - component: {fileID: 704400144}
   - component: {fileID: 704400145}
   m_Layer: 0
   m_Name: Jelly
@@ -902,9 +915,9 @@ MonoBehaviour:
   maxTimerRange: 2
   speedX: 1
   speedY: 1
+  id: 0
+  level: 0
   exp: 0
-  topLeft: {fileID: 170613734}
-  bottomRight: {fileID: 1791085767}
   Manager: {fileID: 1009760427}
 --- !u!58 &704400143
 CircleCollider2D:
@@ -922,19 +935,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &704400144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704400138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a124853c3fb7204d8a2178b1b4750e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 704400139}
 --- !u!50 &704400145
 Rigidbody2D:
   serializedVersion: 4
@@ -1327,6 +1327,8 @@ GameObject:
   - component: {fileID: 881062948}
   - component: {fileID: 881062947}
   - component: {fileID: 881062951}
+  - component: {fileID: 881062952}
+  - component: {fileID: 881062950}
   m_Layer: 5
   m_Name: SellButton
   m_TagString: Untagged
@@ -1435,6 +1437,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881062945}
   m_CullTransparentMesh: 1
+--- !u!114 &881062950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881062945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8532d9fc51901064e9161e1f05868df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &881062951
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1461,6 +1475,51 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 18.211788, y: 14.21451}
   m_EdgeRadius: 0
+--- !u!114 &881062952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881062945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 881062950}
+          m_TargetAssemblyTypeName: ButtonSell, Assembly-CSharp
+          m_MethodName: OnPointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 881062950}
+          m_TargetAssemblyTypeName: ButtonSell, Assembly-CSharp
+          m_MethodName: OnPointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1009760427
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,29 +13,50 @@ public class Jelly : MonoBehaviour
     float speedX = 1;
     [SerializeField]
     float speedY = 1;
-    public static int id { get; set; }
-    public static int level { get; set; }
+    float speed = 0.8f;
+    const int expPoint = 10;
+
+    public int id;
+    public int level;
 
     [SerializeField]
     float exp = 0;
 
-    public GameObject topLeft;
-    public GameObject bottomRight;
+    public static GameObject topLeft;
+    public static GameObject bottomRight;
     public GameObject Manager;
 
     bool idle = true;
     bool walk = false;
     bool timer = false;
-    public static bool outside{ get; set; }
+    public bool outside 
+    { get
+        {
+            if (this.gameObject.transform.position.x < topLeft.transform.position.x || this.gameObject.transform.position.x > bottomRight.transform.position.x)
+            {
+                return true;
+            }
+            else if (this.gameObject.transform.position.y > topLeft.transform.position.y || this.gameObject.transform.position.y < bottomRight.transform.position.y)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        } 
+    }
 
     Vector3 point;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (topLeft == null) topLeft = GameObject.Find("TopLeft");
+        if (bottomRight == null) bottomRight = GameObject.Find("BottomRight");
+
         id = 0;
         level = 1;
-        outside = false;
     }
 
     // Update is called once per frame
@@ -43,23 +64,22 @@ public class Jelly : MonoBehaviour
     {
         SetExp();
 
-        CheckBorder();
-
         if (timer == false)
         {
             timer = true;
-            StartCoroutine("StateTimer");
+            StartCoroutine(StateTimer());
         }
+
         if (walk)
         {
             Walk();
-        }
-        Touch();
+        };
     }
 
     IEnumerator StateTimer()
-    {     
-        yield return new WaitForSeconds(Random.Range(minTimerRange, maxTimerRange));
+    {
+        float nextSecond = Random.Range(minTimerRange, maxTimerRange);
+
         if (idle == true)
         {
             Idle();
@@ -67,10 +87,13 @@ public class Jelly : MonoBehaviour
         }
         else if (idle == false)
         {
-            SetWalk();
+            SetWalk(nextSecond);
             idle = true;
         }
+        yield return new WaitForSeconds(nextSecond);
+
         timer = false;
+
     }
 
     void Idle()
@@ -78,19 +101,38 @@ public class Jelly : MonoBehaviour
         walk = false;
         this.gameObject.GetComponent<Animator>().SetBool("isWalk", false);
     }
-    void SetWalk()
+
+    //다음 불러올 때까지 얼마나 걸릴 것인지 nextSecond
+    //여기에 speed를 곱하면 어디까지 갈 것인지!
+    void SetWalk(float nextSecond)
     {
+        //이동 가능한 왼쪽 영역             왼쪽 끝과 나의 차이!                  //nextSecond로 나누면! 끝까지 가는데 어느 속도로 가면 도착하는지
+        float possibleLeft = (transform.position.x - topLeft.transform.position.x) / nextSecond;  // 이동거리/이동시간 = 속도
+        //                                오른쪽 끝과 나의 차이!
+        float possibleRight = (bottomRight.transform.position.x - transform.position.x) / nextSecond;
+        //                                위쪽 끝과 나의 차이!
+        float possibleTop = (topLeft.transform.position.y - transform.position.y) / nextSecond;
+        //                                아래쪽 끝과 나의 차이!
+        float possibleBottom = (transform.position.y - bottomRight.transform.position.y) / nextSecond;
+
         walk = true;
-        if (outside == false)
+       
+        //                원래 속도로 가면 왼쪽 끝으로 넘어가버림!
+        speedX = Random.Range(-(Mathf.Min(possibleLeft, speed)), (Mathf.Min(possibleRight, speed)));  //가중치에 따라 확률이 달라짐
+        speedY = Random.Range(-(Mathf.Min(possibleBottom, speed)), (Mathf.Min(possibleTop, speed)));
+
+        /*
+        if (outside)
         {
-            speedX = Random.Range(-0.8f, 0.8f);
-            speedY = Random.Range(-0.8f, 0.8f);
-        }
-        if (outside == true)
-        {
+            SetPoint();
             speedX = (point - this.gameObject.transform.position).normalized.x;
             speedY = (point - this.gameObject.transform.position).normalized.y;
         }
+        else
+        {
+            speedX = Random.Range(-0.8f, 0.8f);
+            speedY = Random.Range(-0.8f, 0.8f);
+        }*/
 
         if (speedX < 0)
         {
@@ -103,25 +145,10 @@ public class Jelly : MonoBehaviour
 
         this.gameObject.GetComponent<Animator>().SetBool("isWalk", true);
     }
+
     void Walk()
     {
-        this.gameObject.transform.Translate(speedX * Time.deltaTime, speedY * Time.deltaTime, speedY * Time.deltaTime);
-    }
-
-    void CheckBorder()
-    {
-        if (this.gameObject.transform.position.x < topLeft.transform.position.x || this.gameObject.transform.position.x > bottomRight.transform.position.x)
-        {
-            outside = true;
-        }
-        else if (this.gameObject.transform.position.y > topLeft.transform.position.y || this.gameObject.transform.position.y < bottomRight.transform.position.y)
-        {
-            outside = true;
-        }
-        else
-        {
-            outside = false;
-        }
+        transform.Translate(speedX * Time.deltaTime, speedY * Time.deltaTime, speedY * Time.deltaTime);
     }
 
     void SetPoint()
@@ -129,32 +156,7 @@ public class Jelly : MonoBehaviour
         point = Manager.GetComponent<GameManager>().PointList[Random.Range(0, 3)];
     }
 
-    void Touch()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
 
-            if(hit.collider == null)
-            {
-                return;
-            }
-
-            if (hit.collider.tag=="Jelly")
-            {
-                exp = exp + 1;
-                GameObject.Find("LeftText").GetComponent<GelatinCoin>().getGelatin(id+1, level);
-                this.gameObject.GetComponent<Animator>().SetTrigger("doTouch");
-                speedX = 0;
-                speedY = 0;
-
-                StopCoroutine("StateTimer");
-                StartCoroutine("StateTimer");
-            }          
-        }
-    }
 
     void SetExp()
     {
@@ -164,17 +166,23 @@ public class Jelly : MonoBehaviour
             return;
         }
 
-        if (exp<(50 * level))
-        {
-            return;
-        }
-
-        if (exp >= (50 * level))
+        if (exp >= (expPoint * level))
         {
             level = level + 1;
             exp = 0;
-            Manager.GetComponent<GameManager>().ChangeAc(this.gameObject.GetComponent<Animator>(),level);
+            Manager.GetComponent<GameManager>().ChangeAc(this.gameObject.GetComponent<Animator>(), level);
         }
+    }
+
+    public void Touch()
+    {
+        exp += 1;
+        GameObject.Find("LeftText").GetComponent<GelatinCoin>().GetGelatin(id + 1, level);
+        GetComponent<Animator>().SetTrigger("doTouch");
+        speedX = 0;
+        speedY = 0;
+        StopCoroutine("StateTimer");
+        StartCoroutine("StateTimer");
 
     }
 

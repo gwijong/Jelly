@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class ButtonSell : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static bool CursorOnSellButton { get; private set; }
+    public void OnPointerEnter()
     {
-        
+        CursorOnSellButton = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnPointerExit()
     {
-
+        CursorOnSellButton = false;
     }
 
 

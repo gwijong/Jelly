@@ -22,9 +22,8 @@ public class GelatinCoin : MonoBehaviour
     {
         value = (int)Mathf.SmoothStep(int.Parse(text.text), gelatin, 0.5f);
         text.text = $"{value}";
-        if (value > 99999999 || gelatin > 99999999)
+        if (gelatin > 99999999)
         {
-            value = 99999999;
             gelatin = 99999999;
         }
     }
@@ -40,7 +39,7 @@ public class GelatinCoin : MonoBehaviour
         gelatin = int.Parse(text.text);
     }
 
-    public void getGelatin(int id, int level)
+    public void GetGelatin(int id, int level)
     {
         gelatin = gelatin + id * level;
     }
