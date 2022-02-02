@@ -33,6 +33,7 @@ public class CameraRay : MonoBehaviour
         //이 이후부터 잡기 가능!
         if(grab != null && (grabTime + grabDelay) <= Time.realtimeSinceStartup)
         {
+            grab.gameObject.GetComponent<Animator>().SetBool("isWalk", false);
             grab.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.5f);
             grab.transform.position = new Vector2(mousePos.x, mousePos.y);
         };
@@ -40,7 +41,7 @@ public class CameraRay : MonoBehaviour
 
     void Touch()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
 
         if (hit.collider == null)

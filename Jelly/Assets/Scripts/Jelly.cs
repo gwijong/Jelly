@@ -62,17 +62,19 @@ public class Jelly : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         SetExp();
 
         if (timer == false)
         {
             timer = true;
+            StopCoroutine(StateTimer());
             StartCoroutine(StateTimer());
         }
 
         if (walk)
         {
-            Walk();
+            transform.Translate(speedX * Time.deltaTime, speedY * Time.deltaTime, speedY * Time.deltaTime);
         };
     }
 
@@ -82,25 +84,23 @@ public class Jelly : MonoBehaviour
 
         if (idle == true)
         {
-            Idle();
+            walk = false;
+            this.gameObject.GetComponent<Animator>().SetBool("isWalk", false);
+            yield return new WaitForSeconds(nextSecond);
             idle = false;
         }
         else if (idle == false)
-        {
+        {        
             SetWalk(nextSecond);
+            yield return new WaitForSeconds(nextSecond);
             idle = true;
         }
-        yield return new WaitForSeconds(nextSecond);
+        
 
         timer = false;
 
     }
 
-    void Idle()
-    {
-        walk = false;
-        this.gameObject.GetComponent<Animator>().SetBool("isWalk", false);
-    }
 
     //다음 불러올 때까지 얼마나 걸릴 것인지 nextSecond
     //여기에 speed를 곱하면 어디까지 갈 것인지!
@@ -121,18 +121,6 @@ public class Jelly : MonoBehaviour
         speedX = Random.Range(-(Mathf.Min(possibleLeft, speed)), (Mathf.Min(possibleRight, speed)));  //가중치에 따라 확률이 달라짐
         speedY = Random.Range(-(Mathf.Min(possibleBottom, speed)), (Mathf.Min(possibleTop, speed)));
 
-        /*
-        if (outside)
-        {
-            SetPoint();
-            speedX = (point - this.gameObject.transform.position).normalized.x;
-            speedY = (point - this.gameObject.transform.position).normalized.y;
-        }
-        else
-        {
-            speedX = Random.Range(-0.8f, 0.8f);
-            speedY = Random.Range(-0.8f, 0.8f);
-        }*/
 
         if (speedX < 0)
         {
@@ -145,17 +133,6 @@ public class Jelly : MonoBehaviour
 
         this.gameObject.GetComponent<Animator>().SetBool("isWalk", true);
     }
-
-    void Walk()
-    {
-        transform.Translate(speedX * Time.deltaTime, speedY * Time.deltaTime, speedY * Time.deltaTime);
-    }
-
-    void SetPoint()
-    {
-        point = Manager.GetComponent<GameManager>().PointList[Random.Range(0, 3)];
-    }
-
 
 
     void SetExp()
@@ -178,12 +155,10 @@ public class Jelly : MonoBehaviour
     {
         exp += 1;
         GameObject.Find("LeftText").GetComponent<GelatinCoin>().GetGelatin(id + 1, level);
+        GetComponent<Animator>().SetBool("isWalk", false);
         GetComponent<Animator>().SetTrigger("doTouch");
         speedX = 0;
         speedY = 0;
-        StopCoroutine("StateTimer");
-        StartCoroutine("StateTimer");
-
     }
 
 }

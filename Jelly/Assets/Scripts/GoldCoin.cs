@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GoldCoin : MonoBehaviour
 {
-    int value = 0;
+    float value = 0;
     public int gold = 0;
     [SerializeField]
     Text text;
@@ -16,8 +16,8 @@ public class GoldCoin : MonoBehaviour
 
     private void LateUpdate()
     {
-        value = (int)Mathf.SmoothStep(int.Parse(text.text), gold, 0.5f) + 1;
-        text.text = $"{value}";
+        value = (float)Mathf.SmoothStep(float.Parse(text.text), gold, 0.5f) ;
+        text.text = string.Format("{0:n0}", value);
         if (gold > 99999999)
         {
             gold = 99999999;
