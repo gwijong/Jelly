@@ -35,7 +35,7 @@ public class CameraRay : MonoBehaviour
 
     void Touch()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+      Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
 
         if (hit.collider == null)
