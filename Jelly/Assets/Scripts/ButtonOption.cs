@@ -4,43 +4,54 @@ using UnityEngine;
 
 public class ButtonOption : MonoBehaviour
 {
+    public GameObject panel;
     public bool isClick = false;
+    ButtonPanel jellyButtonPanel;
+    ButtonPanel plantButtonPanel;
     // Start is called before the first frame update
     void Start()
     {
-        
+        jellyButtonPanel = GameObject.Find("JellyButton").GetComponent<ButtonPanel>();
+        plantButtonPanel = GameObject.Find("PlantButton").GetComponent<ButtonPanel>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isClick == false && Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            IsClick();
-        }
-        if (isClick == true && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Time.timeScale = 1;
-            isClick = false;
-            GameObject.Find("OptionButton").GetComponent<ButtonPanel>().Panel.SetActive(false);
+            if(isClick == true)
+            {
+                Time.timeScale = 1;
+                isClick = false;
+                panel.SetActive(false);
+            }else if (jellyButtonPanel.isCheck|| plantButtonPanel.isCheck)
+            {
+                if (jellyButtonPanel.isCheck)
+                {
+                    jellyButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
+                    jellyButtonPanel.isCheck = false;
+                }
+
+                if(plantButtonPanel.isCheck)
+                {
+                    plantButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
+                    plantButtonPanel.isCheck = false;
+                }
+            }
+            else
+            {
+                StartCoroutine("Panel");
+            }
         }
     }
 
-    void IsClick()
-    {
 
-        if (GameObject.Find("JellyButton").GetComponent<ButtonPanel>().isCheck == false && GameObject.Find("PlantButton").GetComponent<ButtonPanel>().isCheck == false)
-        {
-            Time.timeScale = 0;
-            isClick = true;
-        }
-        else
-        {
-            GameObject.Find("OptionButton").GetComponent<ButtonPanel>().Panel.SetActive(true);
-            GameObject.Find("JellyButton").GetComponent<ButtonPanel>().Panel.GetComponent<Animator>().SetTrigger("doHide");
-            GameObject.Find("JellyButton").GetComponent<ButtonPanel>().isCheck = false;
-            GameObject.Find("PlantButton").GetComponent<ButtonPanel>().Panel.GetComponent<Animator>().SetTrigger("doHide");
-            GameObject.Find("PlantButton").GetComponent<ButtonPanel>().isCheck = false;
-        } 
+    IEnumerator Panel()
+    {
+        panel.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        Time.timeScale = 0;
+        isClick = true;
     }
 }
