@@ -96,17 +96,15 @@ public class JellyPanel : MonoBehaviour
     public void buy()
     {
         GoldCoin goldCoin = GameObject.Find("RightText").GetComponent<GoldCoin>();
-
         if (goldCoin.gold >= manager.jellyGoldList[page])
-        {
+        {       
             goldCoin.gold = goldCoin.gold - manager.jellyGoldList[page];
-            Instantiate(jelly);
-            jelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[page];
-            jelly.GetComponent<Jelly>().id = page;
-            jelly.GetComponent<Jelly>().level = 1;
-            jelly.GetComponent<Jelly>().exp = 0;    
-            jelly.transform.position = spawn[(int)Random.Range(0, 6)];
-        }
-    
+            GameObject instanceJelly = Instantiate(jelly);
+            instanceJelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[page];
+            instanceJelly.GetComponent<Jelly>().id = page;
+            instanceJelly.GetComponent<Jelly>().level = 1;
+            instanceJelly.GetComponent<Jelly>().exp = 0;
+            instanceJelly.transform.position = spawn[(int)Random.Range(0, 6)];
+        }   
     }
 }
