@@ -18,8 +18,8 @@ public class Jelly : MonoBehaviour
     public int id;
     public int level;
 
-    [SerializeField]
-    float exp = 0;
+
+    public float exp = 0;
     float nextSecond = 0;
 
     public static GameObject topLeft;
@@ -55,8 +55,6 @@ public class Jelly : MonoBehaviour
         if (topLeft == null) topLeft = GameObject.Find("TopLeft");
         if (bottomRight == null) bottomRight = GameObject.Find("BottomRight");
 
-        id = 0;
-        level = 1;
     }
 
     // Update is called once per frame
