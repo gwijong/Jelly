@@ -41,7 +41,10 @@ public class GoldCoin : MonoBehaviour
         int id = jelly.id;
         int goldList = GameObject.Find("GameManager").GetComponent<GameManager>().jellyGoldList[id];
         gold = gold +(level * goldList);
+        GameObject.Find("GameManager").GetComponent<GameManager>().jellyList.Remove(jelly.gameObject);      
         Destroy(jelly.gameObject);
     }
+
+
 
 }

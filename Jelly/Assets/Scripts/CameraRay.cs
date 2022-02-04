@@ -64,6 +64,7 @@ public class CameraRay : MonoBehaviour
 
             if(ButtonSell.CursorOnSellButton)
             {
+                
                 GameObject.Find("RightText").GetComponent<GoldCoin>().SellJelly(grab);
             }
             else if(grab.outside)

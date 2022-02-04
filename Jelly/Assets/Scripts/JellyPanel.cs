@@ -105,6 +105,7 @@ public class JellyPanel : MonoBehaviour
             instanceJelly.GetComponent<Jelly>().level = 1;
             instanceJelly.GetComponent<Jelly>().exp = 0;
             instanceJelly.transform.position = spawn[(int)Random.Range(0, 6)];
+            manager.jellyList.Add(instanceJelly);
         }   
     }
 }
