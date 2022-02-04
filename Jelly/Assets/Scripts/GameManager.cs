@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        Load();
+        
         if (manager == null)
         {
             manager = this;
@@ -35,18 +35,17 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
 
-        //jellyItemList.Add(new JellyItem(0, 1));
     }
 
     void Update()
     {
+        /*
         timer = timer + Time.deltaTime;
         if(timer > 5)
         {
             timer = 0;
-            Save();
         }
-        
+        */
     }
 
     public class JellyItem
@@ -63,6 +62,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
+    /*
     public void Save()
     {
         for(int i = 0; i<jellyList.Count; i++)
@@ -70,32 +71,41 @@ public class GameManager : MonoBehaviour
             jellyItemList.Add(new JellyItem(i, jellyList[i].GetComponent<Jelly>().id, jellyList[i].GetComponent<Jelly>().level));
         }
         Debug.Log("저장하기");
-        JsonData JellyJson = JsonMapper.ToJson(jellyItemList);
+        //JsonData JellyJson = JsonMapper.ToJson(jellyItemList);
+        string JellyJson = JsonMapper.ToJson(jellyItemList);
 
-        File.WriteAllText(Application.dataPath + "/Save/JellyData.json", JellyJson.ToString());
+        //File.WriteAllText(Application.dataPath + "/Save/JellyData.json", JellyJson.ToString());
+        File.WriteAllText(Application.dataPath + "/Save/JellyData.json", JellyJson);
     }
 
     public void Load()
     {
         string Jsonstring = File.ReadAllText(Application.dataPath + "/Save/JellyData.json");
-        Debug.Log("Jsonstring");
+        
+        //List<JellyItem> itemsToLoad = manager.jellyItemList<JellyItem>(File.ReadAllText(Application.dataPath + "/Save/JellyData.json"));
+
 
         JsonData jellyData = JsonMapper.ToObject(Jsonstring);
 
         for(int i = 0; i < jellyData.Count; i++)
         {
-            /*
+            
+            int keyNum = (int)jellyData[i]["Key"];
+            int idNum = (int)jellyData[i]["ID"];
+            int levelNum = (int)jellyData[i]["Level"];
+            Debug.Log(keyNum);
+            Debug.Log(idNum);
+            Debug.Log(levelNum);
             GameObject instanceJelly = Instantiate(Jelly);
-            instanceJelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[int.Parse(jellyData[i]["Key"])];
-            instanceJelly.GetComponent<Jelly>().id = page;
-            instanceJelly.GetComponent<Jelly>().level = 1;
+            instanceJelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[idNum];
+            instanceJelly.GetComponent<Jelly>().id = idNum;
+            instanceJelly.GetComponent<Jelly>().level = levelNum;
             instanceJelly.GetComponent<Jelly>().exp = 0;
-            */
-            /*
-            Debug.Log(jellyData[i]["Key"].ToString());
-            Debug.Log(jellyData[i]["ID"].ToString());
-            Debug.Log(jellyData[i]["Level"].ToString());
-            */
+            Debug.Log("젤리 로드중");
         }
     }
+    */
+
+
+
 }

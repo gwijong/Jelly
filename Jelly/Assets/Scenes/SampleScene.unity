@@ -2349,6 +2349,7 @@ MonoBehaviour:
   - {fileID: 9100000, guid: 8c7845f2d3a629943afc1519da279300, type: 2}
   - {fileID: 9100000, guid: cf4db5108a8b1874692fcde7c19517c8, type: 2}
   - {fileID: 9100000, guid: 0d3842a994495234589cb6d54c1215e2, type: 2}
+  Jelly: {fileID: 5332250478314405863, guid: d484f99a2f8e9a44b9032da20797216f, type: 3}
 --- !u!4 &1009760429
 Transform:
   m_ObjectHideFlags: 0
