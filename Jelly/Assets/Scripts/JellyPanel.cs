@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class JellyPanel : MonoBehaviour
 {
-    public int page = 0;
+    public static int page = 0;
     public Image image;
     public Text nameText;
     public Text buttonText;
@@ -15,27 +15,16 @@ public class JellyPanel : MonoBehaviour
     public Text lockButtonText;
     public GameObject jelly;
 
-    Vector3 spawn1 = new Vector3(0, 0, 0);
-    Vector3 spawn2 = new Vector3(1, 1, 0);
-    Vector3 spawn3 = new Vector3(1, -1, 0);
-    Vector3 spawn4 = new Vector3(-1, 1, 0);
-    Vector3 spawn5 = new Vector3(1, 0, 0);
-    Vector3 spawn6 = new Vector3(-1, 0, 0);
-    Vector3[] spawn;
+
     private GameManager manager;
     // Start is called before the first frame update
     void Start()
     {
-        spawn = new Vector3[] { spawn1, spawn2, spawn3, spawn4, spawn5, spawn6 };
+
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         Page();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void PageDown()
     {
@@ -91,21 +80,5 @@ public class JellyPanel : MonoBehaviour
             manager.jellyUnlockList[page] = true;
             Page();
         }
-    }
-
-    public void buy()
-    {
-        GoldCoin goldCoin = GameObject.Find("RightText").GetComponent<GoldCoin>();
-        if (goldCoin.gold >= manager.jellyGoldList[page])
-        {       
-            goldCoin.gold = goldCoin.gold - manager.jellyGoldList[page];
-            GameObject instanceJelly = Instantiate(jelly);
-            instanceJelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[page];
-            instanceJelly.GetComponent<Jelly>().id = page;
-            instanceJelly.GetComponent<Jelly>().level = 1;
-            instanceJelly.GetComponent<Jelly>().exp = 0;
-            instanceJelly.transform.position = spawn[(int)Random.Range(0, 6)];
-            manager.jellyList.Add(instanceJelly);
-        }   
     }
 }

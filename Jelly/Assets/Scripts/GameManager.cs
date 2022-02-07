@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using LitJson;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,19 +10,26 @@ public class GameManager : MonoBehaviour
     public int[] jellyGelatinList;
     public int[] jellyGoldList;
     public bool[] jellyUnlockList;
+    public int[] numGoldList;
+    public int[] clickGoldList;
+
+    public int numLevel = 1;
+    public int clickLevel = 1;
+
     public List<GameObject> jellyList;
-    public List<JellyItem> jellyItemList = new List<JellyItem>();
-    private static GameManager manager = null;
+    public static GameManager manager { get; private set; }
     public Vector3[] PointList;
     public RuntimeAnimatorController[] LevelAc;
-    public GameObject Jelly;
+    public GameObject jellyPrefab;
+    public Vector3[] JellyPosition;
     float timer = 0;
 
     public static void ChangeAc(Animator anim, int level)
     {
         anim.runtimeAnimatorController = manager.LevelAc[level-1];
     }
-    private void Start()
+
+    private void Awake()
     {
         
         if (manager == null)
@@ -34,78 +40,107 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+        Load();
+    }
 
+    private void OnApplicationQuit()
+    {
+        Save();
     }
 
     void Update()
     {
-        /*
+
         timer = timer + Time.deltaTime;
-        if(timer > 5)
+        if(timer > 20)
         {
             timer = 0;
+            Save();
         }
-        */
-    }
-
-    public class JellyItem
-    {
-        public int Key;
-        public int ID;
-        public int Level;
-
-        public JellyItem(int key, int id, int level)
-        {
-            Key = key;
-            ID = id;
-            Level = level;
+        JellyPosition = new Vector3[jellyList.Count];
+        for (int i = 0; i < jellyList.Count; i++)
+        {           
+            JellyPosition[i] = jellyList[i].transform.position;
         }
     }
+
 
     
-    /*
+    
     public void Save()
     {
-        for(int i = 0; i<jellyList.Count; i++)
+        jellyJsonObject jsonObject = new jellyJsonObject();
+        jsonObject.gold = GameObject.Find("RightText").GetComponent<GoldCoin>().gold;
+        jsonObject.jellyPoint = GameObject.Find("LeftText").GetComponent<GelatinCoin>().gelatin;
+        jsonObject.jellyTransformArray = new Vector3[jellyList.Count];
+        for (int i = 0; i<jellyList.Count; i++)
         {
-            jellyItemList.Add(new JellyItem(i, jellyList[i].GetComponent<Jelly>().id, jellyList[i].GetComponent<Jelly>().level));
+            jsonObject.list.Add(new JellyItem(jellyList[i].GetComponent<Jelly>().id, jellyList[i].GetComponent<Jelly>().level));
+            jsonObject.jellyTransformArray[i] = JellyPosition[i];
         }
         Debug.Log("저장하기");
-        //JsonData JellyJson = JsonMapper.ToJson(jellyItemList);
-        string JellyJson = JsonMapper.ToJson(jellyItemList);
-
-        //File.WriteAllText(Application.dataPath + "/Save/JellyData.json", JellyJson.ToString());
+        jsonObject.jellyUnlock = new bool[manager.jellyUnlockList.Length];
+        for (int i = 0; i < manager.jellyUnlockList.Length; i++)
+        {
+            jsonObject.jellyUnlock[i] = manager.jellyUnlockList[i];
+        }
+        string JellyJson = JsonUtility.ToJson(jsonObject);
         File.WriteAllText(Application.dataPath + "/Save/JellyData.json", JellyJson);
+
     }
 
     public void Load()
     {
+        jellyJsonObject jsonObject;
+        Debug.Log("젤리 불러오기");
         string Jsonstring = File.ReadAllText(Application.dataPath + "/Save/JellyData.json");
-        
-        //List<JellyItem> itemsToLoad = manager.jellyItemList<JellyItem>(File.ReadAllText(Application.dataPath + "/Save/JellyData.json"));
-
-
-        JsonData jellyData = JsonMapper.ToObject(Jsonstring);
-
-        for(int i = 0; i < jellyData.Count; i++)
+        jsonObject = JsonUtility.FromJson<jellyJsonObject>(Jsonstring);
+         
+        for (int i =0; i<jsonObject.list.Count; i++)
         {
-            
-            int keyNum = (int)jellyData[i]["Key"];
-            int idNum = (int)jellyData[i]["ID"];
-            int levelNum = (int)jellyData[i]["Level"];
-            Debug.Log(keyNum);
-            Debug.Log(idNum);
-            Debug.Log(levelNum);
-            GameObject instanceJelly = Instantiate(Jelly);
-            instanceJelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[idNum];
-            instanceJelly.GetComponent<Jelly>().id = idNum;
-            instanceJelly.GetComponent<Jelly>().level = levelNum;
-            instanceJelly.GetComponent<Jelly>().exp = 0;
-            Debug.Log("젤리 로드중");
+            GameObject instanceJelly = Instantiate(jellyPrefab);
+            instanceJelly.GetComponent<Jelly>().id = jsonObject.list[i].JellyType;
+            instanceJelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[jsonObject.list[i].JellyType];
+            instanceJelly.GetComponent<Jelly>().level = jsonObject.list[i].Level;
+            instanceJelly.transform.position = jsonObject.jellyTransformArray[i];
+            jellyList.Add(instanceJelly);
         }
+        GameObject.Find("LeftText").GetComponent<GelatinCoin>().gelatin = jsonObject.jellyPoint;
+        GameObject.Find("RightText").GetComponent<GoldCoin>().gold = jsonObject.gold;
+
+        
+        manager.jellyUnlockList = new bool[jsonObject.jellyUnlock.Length];
+        for (int i = 0; i < manager.jellyUnlockList.Length; i++)
+        {
+            manager.jellyUnlockList[i] = jsonObject.jellyUnlock[i];
+        }
+        
     }
-    */
+    
 
 
 
+}
+[System.Serializable]
+public class jellyJsonObject
+{
+    public List<JellyItem> list = new List<JellyItem>();
+    public int gold;
+    public int jellyPoint;
+    public bool[] jellyUnlock;
+    public Vector3[] jellyTransformArray;
+
+}
+
+[System.Serializable]
+public class JellyItem
+{
+    public int JellyType;
+    public int Level;
+
+    public JellyItem(int type, int lv)
+    {
+        JellyType = type;
+        Level = lv;
+    }
 }

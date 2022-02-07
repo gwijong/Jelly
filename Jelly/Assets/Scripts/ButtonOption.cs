@@ -5,7 +5,6 @@ using UnityEngine;
 public class ButtonOption : MonoBehaviour
 {
     public GameObject panel;
-    public bool isClick = false;
     ButtonPanel jellyButtonPanel;
     ButtonPanel plantButtonPanel;
     // Start is called before the first frame update
@@ -20,10 +19,9 @@ public class ButtonOption : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(isClick == true)
+            if(panel.activeInHierarchy)
             {
                 Time.timeScale = 1;
-                isClick = false;
                 panel.SetActive(false);
             }else if (jellyButtonPanel.isCheck|| plantButtonPanel.isCheck)
             {
@@ -51,7 +49,9 @@ public class ButtonOption : MonoBehaviour
     {
         panel.SetActive(true);
         yield return new WaitForSeconds(0.2f);
-        Time.timeScale = 0;
-        isClick = true;
+        if (panel.activeInHierarchy)
+        {
+            Time.timeScale = 0;
+        }       
     }
 }

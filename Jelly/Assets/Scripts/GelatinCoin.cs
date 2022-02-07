@@ -13,7 +13,7 @@ public class GelatinCoin : MonoBehaviour
 
     void Start()
     {
-        GetVariable();
+        //GetVariable();
     }
 
     private void LateUpdate()

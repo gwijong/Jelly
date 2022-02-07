@@ -11,7 +11,7 @@ public class GoldCoin : MonoBehaviour
     Text text;
     void Start()
     {
-        GetVariable();
+        //GetVariable();
     }
 
     private void LateUpdate()
@@ -35,15 +35,7 @@ public class GoldCoin : MonoBehaviour
         gold = int.Parse(text.text);
     }
 
-    public void SellJelly(Jelly jelly) 
-    {       
-        int level = jelly.level;
-        int id = jelly.id;
-        int goldList = GameObject.Find("GameManager").GetComponent<GameManager>().jellyGoldList[id];
-        gold = gold +(level * goldList);
-        GameObject.Find("GameManager").GetComponent<GameManager>().jellyList.Remove(jelly.gameObject);      
-        Destroy(jelly.gameObject);
-    }
+
 
 
 
