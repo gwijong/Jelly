@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
         jellyJsonObject jsonObject = new jellyJsonObject();
         jsonObject.gold = GameObject.Find("RightText").GetComponent<GoldCoin>().gold;
         jsonObject.jellyPoint = GameObject.Find("LeftText").GetComponent<GelatinCoin>().gelatin;
+        jsonObject.jsonNumLevel = numLevel;
+        jsonObject.jsonClickLevel = clickLevel;      
         jsonObject.jellyTransformArray = new Vector3[jellyList.Count];
         for (int i = 0; i<jellyList.Count; i++)
         {
@@ -107,7 +109,8 @@ public class GameManager : MonoBehaviour
         }
         GameObject.Find("LeftText").GetComponent<GelatinCoin>().gelatin = jsonObject.jellyPoint;
         GameObject.Find("RightText").GetComponent<GoldCoin>().gold = jsonObject.gold;
-
+        clickLevel = jsonObject.jsonClickLevel;
+        numLevel = jsonObject.jsonNumLevel;
         
         manager.jellyUnlockList = new bool[jsonObject.jellyUnlock.Length];
         for (int i = 0; i < manager.jellyUnlockList.Length; i++)
@@ -129,7 +132,8 @@ public class jellyJsonObject
     public int jellyPoint;
     public bool[] jellyUnlock;
     public Vector3[] jellyTransformArray;
-
+    public int jsonNumLevel;
+    public int jsonClickLevel;
 }
 
 [System.Serializable]

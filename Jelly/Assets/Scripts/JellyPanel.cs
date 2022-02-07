@@ -79,6 +79,11 @@ public class JellyPanel : MonoBehaviour
             gelCoin.gelatin = gelCoin.gelatin - price;
             manager.jellyUnlockList[page] = true;
             Page();
+            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Unlock");
+        }
+        else
+        {
+            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
         }
     }
 }

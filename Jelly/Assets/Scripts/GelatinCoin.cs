@@ -39,6 +39,6 @@ public class GelatinCoin : MonoBehaviour
 
     public void GetGelatin(int id, int level)
     {
-        gelatin = gelatin + id * level;
+        gelatin = gelatin + id * level * GameManager.manager.clickLevel;      
     }
 }

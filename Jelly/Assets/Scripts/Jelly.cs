@@ -131,11 +131,13 @@ public class Jelly : MonoBehaviour
             level = level + 1;
             exp = 0;
             GameManager.ChangeAc(this.GetComponent<Animator>(), level);
+            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Grow");
         };
     }
 
     public void Touch()
     {
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Touch");
         exp += 1;
         GameObject.Find("LeftText").GetComponent<GelatinCoin>().GetGelatin(id + 1, level);
         GetComponent<Animator>().SetBool("isWalk", false);
