@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public Vector3[] JellyPosition;
     float timer = 0;
 
+    public GameObject clear;
+    public bool clearCheck;
+
     public static void ChangeAc(Animator anim, int level)
     {
         anim.runtimeAnimatorController = manager.LevelAc[level-1];
@@ -41,6 +44,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         Load();
+        gameClearCheckAndStart();
     }
 
     private void OnApplicationQuit()
@@ -65,15 +69,17 @@ public class GameManager : MonoBehaviour
     }
 
 
-    
-    
+
     public void Save()
     {
         jellyJsonObject jsonObject = new jellyJsonObject();
         jsonObject.gold = GameObject.Find("RightText").GetComponent<GoldCoin>().gold;
         jsonObject.jellyPoint = GameObject.Find("LeftText").GetComponent<GelatinCoin>().gelatin;
         jsonObject.jsonNumLevel = numLevel;
-        jsonObject.jsonClickLevel = clickLevel;      
+        jsonObject.jsonClickLevel = clickLevel;
+        jsonObject.isClear = clearCheck;
+        jsonObject.bgm = GameObject.Find("SoundManager").GetComponent<SoundManager>().bgm;
+        jsonObject.sfx = GameObject.Find("SoundManager").GetComponent<SoundManager>().sfx;
         jsonObject.jellyTransformArray = new Vector3[jellyList.Count];
         for (int i = 0; i<jellyList.Count; i++)
         {
@@ -87,15 +93,17 @@ public class GameManager : MonoBehaviour
             jsonObject.jellyUnlock[i] = manager.jellyUnlockList[i];
         }
         string JellyJson = JsonUtility.ToJson(jsonObject);
-        File.WriteAllText(Application.dataPath + "/Save/JellyData.json", JellyJson);
+        File.WriteAllText(Application.dataPath + "/JellyData.json", JellyJson);
+
 
     }
+
 
     public void Load()
     {
         jellyJsonObject jsonObject;
         Debug.Log("젤리 불러오기");
-        string Jsonstring = File.ReadAllText(Application.dataPath + "/Save/JellyData.json");
+        string Jsonstring = File.ReadAllText(Application.dataPath + "/JellyData.json");
         jsonObject = JsonUtility.FromJson<jellyJsonObject>(Jsonstring);
          
         for (int i =0; i<jsonObject.list.Count; i++)
@@ -111,18 +119,29 @@ public class GameManager : MonoBehaviour
         GameObject.Find("RightText").GetComponent<GoldCoin>().gold = jsonObject.gold;
         clickLevel = jsonObject.jsonClickLevel;
         numLevel = jsonObject.jsonNumLevel;
-        
+        clearCheck = jsonObject.isClear;
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().bgm = jsonObject.bgm;
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().sfx = jsonObject.sfx;
+
         manager.jellyUnlockList = new bool[jsonObject.jellyUnlock.Length];
         for (int i = 0; i < manager.jellyUnlockList.Length; i++)
         {
             manager.jellyUnlockList[i] = jsonObject.jellyUnlock[i];
         }
-        
     }
-    
-
-
-
+    public void gameClearCheckAndStart()
+    {
+        if (clearCheck)
+        {
+            clear.SetActive(true);
+            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("clear");
+            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Clear");
+        }
+        else
+        {
+            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("start");
+        }
+    }
 }
 [System.Serializable]
 public class jellyJsonObject
@@ -134,6 +153,9 @@ public class jellyJsonObject
     public Vector3[] jellyTransformArray;
     public int jsonNumLevel;
     public int jsonClickLevel;
+    public float bgm;
+    public float sfx;
+    public bool isClear;
 }
 
 [System.Serializable]
@@ -147,4 +169,6 @@ public class JellyItem
         JellyType = type;
         Level = lv;
     }
+
+
 }

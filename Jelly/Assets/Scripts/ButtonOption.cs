@@ -7,7 +7,8 @@ public class ButtonOption : MonoBehaviour
     public GameObject panel;
     ButtonPanel jellyButtonPanel;
     ButtonPanel plantButtonPanel;
-    // Start is called before the first frame update
+
+    float timer;
     void Start()
     {
         jellyButtonPanel = GameObject.Find("JellyButton").GetComponent<ButtonPanel>();
@@ -19,33 +20,39 @@ public class ButtonOption : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(panel.activeInHierarchy)
-            {
-                Time.timeScale = 1;
-                panel.SetActive(false);
-                GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseOut");
-            }
-            else if (jellyButtonPanel.isCheck|| plantButtonPanel.isCheck)
-            {
-                if (jellyButtonPanel.isCheck)
-                {
-                    jellyButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
-                    jellyButtonPanel.isCheck = false;
-                }
-
-                if(plantButtonPanel.isCheck)
-                {
-                    plantButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
-                    plantButtonPanel.isCheck = false;
-                }
-            }
-            else
-            {
-                StartCoroutine("Panel");
-            }
+            Hide();
         }
     }
 
+    public void Hide()
+    {
+        if (panel.activeInHierarchy)
+        {
+            Time.timeScale = 1;
+            panel.SetActive(false);
+            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseOut");
+        }
+        else if (jellyButtonPanel.isCheck || plantButtonPanel.isCheck)
+        {
+            if (jellyButtonPanel.isCheck)
+            {
+                jellyButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
+                jellyButtonPanel.isCheck = false;
+                GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+            }
+
+            if (plantButtonPanel.isCheck)
+            {
+                plantButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
+                plantButtonPanel.isCheck = false;
+                GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+            }
+        }
+        else
+        {
+            StartCoroutine("Panel");
+        }
+    }
 
     IEnumerator Panel()
     {
@@ -55,6 +62,18 @@ public class ButtonOption : MonoBehaviour
         if (panel.activeInHierarchy)
         {
             Time.timeScale = 0;
-        }       
+        }
+    }
+
+    public void Exit()
+    {     
+        timer = timer +Time.unscaledTime;
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseOut");
+        if (timer > 0.5f)
+        {
+            Debug.Log("게임 종료");
+            Application.Quit();           
+        }
+
     }
 }

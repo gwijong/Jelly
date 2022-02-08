@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class SoundManager : MonoBehaviour
 {
     public AudioSource BgmPlayer;
     public AudioSource SfxPlayer;
+
+    public Slider SfxSlider;
+    public Slider BgmSlider;
+
+    public float bgm;
+    public float sfx;
 
     [SerializeField]
     AudioClip Button;
@@ -29,13 +35,17 @@ public class SoundManager : MonoBehaviour
     AudioClip Unlock;
     void Start()
     {
-        
+        SfxSlider.value = sfx;
+        BgmSlider.value = bgm;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        bgm = BgmSlider.value;
+        sfx = SfxSlider.value;
+        BgmPlayer.volume = bgm;
+        SfxPlayer.volume = sfx;
     }
 
     public void PlaySfxPlayer(string audioClipName)

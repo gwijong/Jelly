@@ -59,6 +59,7 @@ public class PlantPanel : MonoBehaviour
         else
         {
             GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
+            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("notGold");
         }
     }
 
@@ -83,6 +84,7 @@ public class PlantPanel : MonoBehaviour
         else
         {
             GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
+            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("notGold");
         }
     }
 }

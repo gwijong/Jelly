@@ -22,7 +22,7 @@ public class BuySellJelly : MonoBehaviour
     {
         if (GameManager.manager.jellyList.Count>= GameManager.manager.numLevel*2)
         {
-            Debug.Log("Á©¸® ¼ö¿ë·®ÀÌ °¡µæ Ã¡½À´Ï´Ù");
+            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("notNum");
             return;
         }
         page = JellyPanel.page;
@@ -38,6 +38,10 @@ public class BuySellJelly : MonoBehaviour
             instanceJelly.transform.position = spawnPos[(int)Random.Range(0, 6)];
             GameManager.manager.jellyList.Add(instanceJelly);
             GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Buy");
+        }
+        else
+        {
+            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("notGold");
         }
     }
 

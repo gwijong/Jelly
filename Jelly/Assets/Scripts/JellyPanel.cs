@@ -14,7 +14,7 @@ public class JellyPanel : MonoBehaviour
     public Image lockImage;
     public Text lockButtonText;
     public GameObject jelly;
-
+    bool Clearcheck = true;
 
     private GameManager manager;
     // Start is called before the first frame update
@@ -82,10 +82,27 @@ public class JellyPanel : MonoBehaviour
             manager.jellyUnlockList[page] = true;
             Page();
             GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Unlock");
+
+            
+            for(int i = 0; i< manager.jellyUnlockList.Length; i++)
+            {
+                if(manager.jellyUnlockList[i] == false)
+                {
+                    Clearcheck = false;
+                    break;
+                }              
+            }
+            if (Clearcheck)
+            {
+                manager.clearCheck = true;
+                manager.gameClearCheckAndStart();
+            }
+            Clearcheck = true;
         }
         else
         {
             GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
+            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("notGelatin");
         }
     }
 }

@@ -13,7 +13,7 @@ public class Jelly : MonoBehaviour
     [SerializeField]
     float speedY = 1;
     float speed = 0.8f;
-    const int expPoint = 10;
+    const int expPoint = 50;
 
     public int id;
     public int level;

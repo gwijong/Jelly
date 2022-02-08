@@ -8,6 +8,7 @@ public class ButtonSell : MonoBehaviour
     public void OnPointerEnter()
     {
         CursorOnSellButton = true;
+        GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("sell");
     }
 
     public void OnPointerExit()
