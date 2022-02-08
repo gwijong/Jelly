@@ -649,7 +649,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -2.8}
   m_SizeDelta: {x: 12.8, y: 4.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &220600800
@@ -2994,7 +2994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5aee2bc9e7a574ca8ef31237a3faf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gelatin: 1000
+  gelatin: 999
   text: {fileID: 2085738024}
 --- !u!1 &856146250
 GameObject:
@@ -3087,7 +3087,6 @@ GameObject:
   - component: {fileID: 881062949}
   - component: {fileID: 881062948}
   - component: {fileID: 881062947}
-  - component: {fileID: 881062951}
   - component: {fileID: 881062952}
   - component: {fileID: 881062950}
   m_Layer: 5
@@ -3106,14 +3105,14 @@ RectTransform:
   m_GameObject: {fileID: 881062945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children: []
   m_Father: {fileID: 755306366}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 5}
+  m_AnchoredPosition: {x: 0.0000009536743, y: 5.2}
   m_SizeDelta: {x: 12.8, y: 12.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &881062947
@@ -3210,32 +3209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8532d9fc51901064e9161e1f05868df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &881062951
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 881062945}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.18201256, y: -2.2094328}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 18.211788, y: 14.21451}
-  m_EdgeRadius: 0
 --- !u!114 &881062952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5756,7 +5729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d71abb403d45f6469dd453db3cebabf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 1000
+  gold: 999
   text: {fileID: 1461684398}
 --- !u!1 &1515868017
 GameObject:
@@ -6065,8 +6038,8 @@ MonoBehaviour:
   SfxPlayer: {fileID: 1673806104}
   SfxSlider: {fileID: 1040356600}
   BgmSlider: {fileID: 1697745254}
-  bgm: 0
-  sfx: 0
+  bgm: 1
+  sfx: 1
   Button: {fileID: 8300000, guid: 768876ef01ca30043a665d0f8f9a5a29, type: 3}
   Buy: {fileID: 8300000, guid: d419044f4528c924c8246806ad0bfb4b, type: 3}
   Clear: {fileID: 8300000, guid: 3b7cea2252b4b6b45bab4864f9faeef8, type: 3}

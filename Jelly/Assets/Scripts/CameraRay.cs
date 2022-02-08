@@ -62,9 +62,8 @@ public class CameraRay : MonoBehaviour
                 grab.Touch();
             };
 
-            if(ButtonSell.CursorOnSellButton)
+            if (ButtonSell.CursorOnSellButton)
             {
-                
                 BuySellJelly.SellJelly(grab);
             }
             else if(grab.outside)

@@ -102,7 +102,7 @@ public class JellyPanel : MonoBehaviour
         else
         {
             GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
-            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("notGelatin");
+            NoticeManager.Msg("notGelatin");
         }
     }
 }

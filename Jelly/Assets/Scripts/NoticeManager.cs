@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class NoticeManager : MonoBehaviour
 {
+    static NoticeManager manager;
+
     public Image NoticeImage;
     public Text NoticeText;
     string start = "모든 젤리를 해금하는 것이 목표.";
@@ -18,9 +20,9 @@ public class NoticeManager : MonoBehaviour
 
     bool isNegative = true;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        if(manager==null) manager = this;
     }
 
     // Update is called once per frame
@@ -49,37 +51,41 @@ public class NoticeManager : MonoBehaviour
         
     }
 
-    public void Msg(string Name)
+    public static void Msg(string Name)
     {
         switch (Name)
         {
             case "start":
-                NoticeText.text = start;
-                isNegative = false;
+                manager.NoticeText.text = manager.start;
+                manager.isNegative = false;
                 break;
             case "clear":
-                NoticeText.text = clear;
-                isNegative = false;
+                manager.NoticeText.text = manager.clear;
+                manager.isNegative = false;
                 break;
             case "sell":
-                NoticeText.text = sell;
-                isNegative = false;
+                manager.NoticeText.text = manager.sell;
+                manager.isNegative = false;
                 break;
             case "notGelatin":
-                NoticeText.text = notGelatin;
-                isNegative = true;
+                manager.NoticeText.text = manager.notGelatin;
+                manager.isNegative = true;
                 break;
             case "notGold":
-                NoticeText.text = notGold;
-                isNegative = true;
+                manager.NoticeText.text = manager.notGold;
+                manager.isNegative = true;
                 break;
             case "notNum":
-                NoticeText.text = notNum;
-                isNegative = true;
+                manager.NoticeText.text = manager.notNum;
+                manager.isNegative = true;
+                break;
+            default:
+                manager.NoticeText.text = Name;
+                manager.isNegative = true;
                 break;
         }
-        timer = 0;
-        timeCheck = true;
-        NoticeImage.rectTransform.anchoredPosition = new Vector2(NoticeImage.rectTransform.anchoredPosition.x, -3);
+        manager.timer = 0;
+        manager.timeCheck = true;
+        manager.NoticeImage.rectTransform.anchoredPosition = new Vector2(manager.NoticeImage.rectTransform.anchoredPosition.x, -3);
     }
 }

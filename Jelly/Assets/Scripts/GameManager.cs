@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Android;
 using UnityEngine;
 using System.IO;
+using System.Text;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,7 +36,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        
         if (manager == null)
         {
             manager = this;
@@ -86,24 +87,43 @@ public class GameManager : MonoBehaviour
             jsonObject.list.Add(new JellyItem(jellyList[i].GetComponent<Jelly>().id, jellyList[i].GetComponent<Jelly>().level));
             jsonObject.jellyTransformArray[i] = JellyPosition[i];
         }
-        Debug.Log("저장하기");
         jsonObject.jellyUnlock = new bool[manager.jellyUnlockList.Length];
         for (int i = 0; i < manager.jellyUnlockList.Length; i++)
         {
             jsonObject.jellyUnlock[i] = manager.jellyUnlockList[i];
         }
         string JellyJson = JsonUtility.ToJson(jsonObject);
-        File.WriteAllText(Application.dataPath + "/JellyData.json", JellyJson);
 
+        string path = Application.persistentDataPath + "/JellyData.json";
 
+        FileStream currentFile;
+        if (File.Exists(path)) File.Delete(path);
+        currentFile = File.Create(path);
+
+        currentFile.Write(Encoding.UTF8.GetBytes(JellyJson), 0, JellyJson.Length);
+
+        //File.WriteAllText(Application.persistentDataPath + "/JellyData.json", JellyJson);
+
+        currentFile.Close();
     }
 
 
     public void Load()
     {
+        string path = Application.persistentDataPath + "/JellyData.json";
+        if (!File.Exists(path)) return;
+
+        FileStream currentFile = File.OpenRead(path);
+
+        byte[] loadedByteArray = new byte[currentFile.Length];
+        for(int i = 0; i < loadedByteArray.Length; i++)
+        {
+            loadedByteArray[i] = (byte)currentFile.ReadByte();
+        };
+
         jellyJsonObject jsonObject;
-        Debug.Log("젤리 불러오기");
-        string Jsonstring = File.ReadAllText(Application.dataPath + "/JellyData.json");
+        string Jsonstring = Encoding.UTF8.GetString(loadedByteArray);
+
         jsonObject = JsonUtility.FromJson<jellyJsonObject>(Jsonstring);
          
         for (int i =0; i<jsonObject.list.Count; i++)
@@ -134,12 +154,12 @@ public class GameManager : MonoBehaviour
         if (clearCheck)
         {
             clear.SetActive(true);
-            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("clear");
+            NoticeManager.Msg("clear");
             GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Clear");
         }
         else
         {
-            GameObject.Find("NoticeManager").GetComponent<NoticeManager>().Msg("start");
+            NoticeManager.Msg("start");
         }
     }
 }
