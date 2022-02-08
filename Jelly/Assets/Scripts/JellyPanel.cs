@@ -34,6 +34,7 @@ public class JellyPanel : MonoBehaviour
         }
         page = page - 1;
         Page();
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
     }
 
     public void PageUp()
@@ -44,6 +45,7 @@ public class JellyPanel : MonoBehaviour
         }
         page = page + 1;
         Page();
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
     }
 
     void Page()

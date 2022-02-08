@@ -23,7 +23,9 @@ public class ButtonOption : MonoBehaviour
             {
                 Time.timeScale = 1;
                 panel.SetActive(false);
-            }else if (jellyButtonPanel.isCheck|| plantButtonPanel.isCheck)
+                GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseOut");
+            }
+            else if (jellyButtonPanel.isCheck|| plantButtonPanel.isCheck)
             {
                 if (jellyButtonPanel.isCheck)
                 {
@@ -48,6 +50,7 @@ public class ButtonOption : MonoBehaviour
     IEnumerator Panel()
     {
         panel.SetActive(true);
+        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseIn");
         yield return new WaitForSeconds(0.2f);
         if (panel.activeInHierarchy)
         {

@@ -54,6 +54,7 @@ public class PlantPanel : MonoBehaviour
             GameManager.manager.numLevel += 1;
             numSubText.text = $"젤리수용량 {GameManager.manager.numLevel*2}";
             numButtonText.text = $"{GameManager.manager.numGoldList[GameManager.manager.numLevel]}";
+            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Unlock");
         }
         else
         {
@@ -77,6 +78,7 @@ public class PlantPanel : MonoBehaviour
             GameManager.manager.clickLevel += 1;
             clickSubText.text = $"클릭생산량 x {GameManager.manager.clickLevel}";
             clickButtonText.text = $"{GameManager.manager.clickGoldList[GameManager.manager.clickLevel]}";
+            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Unlock");
         }
         else
         {
