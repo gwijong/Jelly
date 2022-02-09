@@ -18,8 +18,8 @@ public class GelatinCoin : MonoBehaviour
 
     private void LateUpdate()
     {
-        value = (float)Mathf.SmoothStep(float.Parse(text.text), gelatin, 0.5f);
-        text.text = string.Format("{0:n0}", value);
+        value = Mathf.SmoothStep(float.Parse(text.text), gelatin, 0.5f);
+        text.text = string.Format("{0:n0}", Mathf.Round(value));
         if (gelatin > 99999999)
         {
             gelatin = 99999999;
