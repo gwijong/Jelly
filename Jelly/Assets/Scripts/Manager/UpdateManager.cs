@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class UpdateManager : MonoBehaviour
+public class UpdateManager
 {
     public Action UpdateMethod = null;
     public void OnUpdate()

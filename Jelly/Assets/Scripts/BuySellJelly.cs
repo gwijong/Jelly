@@ -55,6 +55,8 @@ public class BuySellJelly : MonoBehaviour
         GameObject.Find("RightText").GetComponent<GoldCoin>().gold += (int)(level * goldList);
         GameObject.Find("GameManager").GetComponent<GameManager>().jellyList.Remove(jelly.gameObject);
         GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Sell");
+        Manager.Input.UpdateMethod -= jelly.GetComponent<Jelly>().SetState;
+
         Destroy(jelly.gameObject);
     }
 }

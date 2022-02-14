@@ -53,26 +53,18 @@ public class GameManager : MonoBehaviour
         Save();
     }
 
-    void Update()
+    private void Start()
     {
-
-        timer = timer + Time.deltaTime;
-        if(timer > 20)
-        {
-            timer = 0;
-            Save();
-        }
-        JellyPosition = new Vector3[jellyList.Count];
-        for (int i = 0; i < jellyList.Count; i++)
-        {           
-            JellyPosition[i] = jellyList[i].transform.position;
-        }
+        Manager.Input.UpdateMethod -= OnUpdate;
+        Manager.Input.UpdateMethod += OnUpdate; 
     }
 
 
 
     public void Save()
     {
+        Debug.Log("Save");
+
         jellyJsonObject jsonObject = new jellyJsonObject();
         jsonObject.gold = GameObject.Find("RightText").GetComponent<GoldCoin>().gold;
         jsonObject.jellyPoint = GameObject.Find("LeftText").GetComponent<GelatinCoin>().gelatin;
@@ -133,6 +125,7 @@ public class GameManager : MonoBehaviour
             instanceJelly.GetComponent<SpriteRenderer>().sprite = manager.jellySpriteList[jsonObject.list[i].JellyType];
             instanceJelly.GetComponent<Jelly>().level = jsonObject.list[i].Level;
             instanceJelly.transform.position = jsonObject.jellyTransformArray[i];
+            ChangeAc(instanceJelly.GetComponent<Animator>(), instanceJelly.GetComponent<Jelly>().level);
             jellyList.Add(instanceJelly);
         }
         GameObject.Find("LeftText").GetComponent<GelatinCoin>().gelatin = jsonObject.jellyPoint;
@@ -160,6 +153,21 @@ public class GameManager : MonoBehaviour
         else
         {
             NoticeManager.Msg("start");
+        }
+    }
+
+    public void OnUpdate()
+    {
+        timer = timer + Time.deltaTime;
+        if (timer > 20)
+        {
+            timer = 0;
+            Save();
+        }
+        JellyPosition = new Vector3[jellyList.Count];
+        for (int i = 0; i < jellyList.Count; i++)
+        {
+            JellyPosition[i] = jellyList[i].transform.position;
         }
     }
 }

@@ -10,11 +10,12 @@ public class Cloud : MonoBehaviour
 
     void Start()
     {
-        
+        Manager.Input.UpdateMethod -= OnUpdate;
+        Manager.Input.UpdateMethod += OnUpdate;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnUpdate()
     {
         if (rightMove == true)
         {
@@ -24,15 +25,14 @@ public class Cloud : MonoBehaviour
         {
             this.transform.Translate(-1 * speed * Time.deltaTime, 0, 0);
         }
-        
-        if(this.transform.position.x < -8)
+
+        if (this.transform.position.x < -8)
         {
             rightMove = true;
-        }else if (this.transform.position.x > 8)
+        }
+        else if (this.transform.position.x > 8)
         {
             rightMove = false;
         }
-
-        
     }
 }

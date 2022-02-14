@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour
 
     private void Update()
     {
-        _update.OnUpdate();
+        Input.OnUpdate();
     }
     private void Start()
     {

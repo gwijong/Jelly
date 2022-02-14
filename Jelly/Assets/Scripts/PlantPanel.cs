@@ -32,12 +32,6 @@ public class PlantPanel : MonoBehaviour
         clickSubText.text = $"클릭생산량 {GameManager.manager.clickLevel}";
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Num()
     {
         GoldCoin goldCoin = GameObject.Find("RightText").GetComponent<GoldCoin>();

@@ -13,16 +13,10 @@ public class ButtonOption : MonoBehaviour
     {
         jellyButtonPanel = GameObject.Find("JellyButton").GetComponent<ButtonPanel>();
         plantButtonPanel = GameObject.Find("PlantButton").GetComponent<ButtonPanel>();
+        Manager.Input.UpdateMethod -= OnUpdate;
+        Manager.Input.UpdateMethod += OnUpdate;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Hide();
-        }
-    }
 
     public void Hide()
     {
@@ -74,6 +68,13 @@ public class ButtonOption : MonoBehaviour
             Debug.Log("게임 종료");
             Application.Quit();           
         }
+    }
 
+    void OnUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
     }
 }

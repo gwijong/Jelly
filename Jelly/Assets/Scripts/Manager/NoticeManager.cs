@@ -19,36 +19,16 @@ public class NoticeManager : MonoBehaviour
     bool timeCheck = false;
 
     bool isNegative = true;
-    // Start is called before the first frame update
+
     void Awake()
     {
         if(manager==null) manager = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        timer = timer + Time.deltaTime;
-        if (isNegative)
-        {
-            NoticeImage.GetComponent<Image>().color = new Color(255/255f, 100/255f, 100/255f,255/255f);
-            NoticeText.color = new Color(255, 255, 255, 255);
-        }
-        else
-        {
-            NoticeImage.GetComponent<Image>().color = new Color(0/255f, 234/255f, 218/255f, 255 / 255f);
-            NoticeText.color = new Color(0, 0, 0, 255);
-        }
-
-        if (timeCheck)
-        {
-            if (timer > 3)
-            {              
-                NoticeImage.rectTransform.anchoredPosition = new Vector2(NoticeImage.rectTransform.anchoredPosition.x, 20);
-                timeCheck = false;
-            }
-        }
-        
+        Manager.Input.UpdateMethod -= OnUpdate;
+        Manager.Input.UpdateMethod += OnUpdate;
     }
 
     public static void Msg(string Name)
@@ -87,5 +67,29 @@ public class NoticeManager : MonoBehaviour
         manager.timer = 0;
         manager.timeCheck = true;
         manager.NoticeImage.rectTransform.anchoredPosition = new Vector2(manager.NoticeImage.rectTransform.anchoredPosition.x, -3);
+    }
+
+    void OnUpdate()
+    {
+        timer = timer + Time.deltaTime;
+        if (isNegative)
+        {
+            NoticeImage.GetComponent<Image>().color = new Color(255 / 255f, 100 / 255f, 100 / 255f, 255 / 255f);
+            NoticeText.color = new Color(255, 255, 255, 255);
+        }
+        else
+        {
+            NoticeImage.GetComponent<Image>().color = new Color(0 / 255f, 234 / 255f, 218 / 255f, 255 / 255f);
+            NoticeText.color = new Color(0, 0, 0, 255);
+        }
+
+        if (timeCheck)
+        {
+            if (timer > 3)
+            {
+                NoticeImage.rectTransform.anchoredPosition = new Vector2(NoticeImage.rectTransform.anchoredPosition.x, 20);
+                timeCheck = false;
+            }
+        }
     }
 }

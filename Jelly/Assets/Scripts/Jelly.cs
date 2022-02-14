@@ -50,42 +50,16 @@ public class Jelly : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
         if (topLeft == null) topLeft = GameObject.Find("TopLeft");
         if (bottomRight == null) bottomRight = GameObject.Find("BottomRight");
 
+        Manager.Input.UpdateMethod -= SetExp;
+        Manager.Input.UpdateMethod += SetExp;
+        Manager.Input.UpdateMethod -= SetState;
+        Manager.Input.UpdateMethod += SetState;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        SetExp();
 
-        //시간 지나면
-        if(nextSecond <= Time.realtimeSinceStartup)
-        {
-            //다음 시간으로 맞추기!
-            SetNextSecond();
-
-            if (idle == true)
-            {
-                walk = false;
-                this.GetComponent<Animator>().SetBool("isWalk", false);
-                idle = false;
-            }
-            else if (idle == false)
-            {
-                SetWalk(nextSecond - Time.realtimeSinceStartup);
-                idle = true;
-            };
-        };
-
-        if (walk)
-        {
-            transform.Translate(speedX * Time.deltaTime, speedY * Time.deltaTime, speedY * Time.deltaTime);
-        }; 
-    }
 
     void SetNextSecond()
     {
@@ -148,4 +122,29 @@ public class Jelly : MonoBehaviour
         SetNextSecond(); 
     }
 
+    public void SetState()
+    {
+        if (nextSecond <= Time.realtimeSinceStartup)
+        {
+            //다음 시간으로 맞추기!
+            SetNextSecond();
+
+            if (idle == true)
+            {
+                walk = false;
+                this.GetComponent<Animator>().SetBool("isWalk", false);
+                idle = false;
+            }
+            else if (idle == false)
+            {
+                SetWalk(nextSecond - Time.realtimeSinceStartup);
+                idle = true;
+            };
+        };
+
+        if (walk)
+        {
+            transform.Translate(speedX * Time.deltaTime, speedY * Time.deltaTime, speedY * Time.deltaTime);
+        };
+    }
 }

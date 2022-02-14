@@ -42,9 +42,4 @@ public class JellyShadow : MonoBehaviour
             
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

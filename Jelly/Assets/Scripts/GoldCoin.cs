@@ -9,10 +9,6 @@ public class GoldCoin : MonoBehaviour
     public int gold = 0;
     [SerializeField]
     Text text;
-    void Start()
-    {
-        //GetVariable();
-    }
 
     private void LateUpdate()
     {
@@ -24,11 +20,6 @@ public class GoldCoin : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //SellJelly();
-    }
 
     void GetVariable()
     {

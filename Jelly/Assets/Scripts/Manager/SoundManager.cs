@@ -37,15 +37,9 @@ public class SoundManager : MonoBehaviour
     {
         SfxSlider.value = sfx;
         BgmSlider.value = bgm;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        bgm = BgmSlider.value;
-        sfx = SfxSlider.value;
-        BgmPlayer.volume = bgm;
-        SfxPlayer.volume = sfx;
+        Manager.Input.UpdateMethod -= OnUpdate;
+        Manager.Input.UpdateMethod += OnUpdate;
     }
 
     public void PlaySfxPlayer(string audioClipName)
@@ -84,5 +78,13 @@ public class SoundManager : MonoBehaviour
                 break;
         }
         SfxPlayer.Play();
+    }
+
+    void OnUpdate()
+    {
+        bgm = BgmSlider.value;
+        sfx = SfxSlider.value;
+        BgmPlayer.volume = bgm;
+        SfxPlayer.volume = sfx;
     }
 }
