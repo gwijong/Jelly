@@ -31,13 +31,13 @@ public class ButtonPanel : MonoBehaviour
             }
             isCheck = true;
             Panel.GetComponent<Animator>().SetTrigger("doShow");
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+            GameManager.soundmanager.PlaySfxPlayer("Button");
         }
         else if (isCheck == true || Input.GetKeyDown(KeyCode.Escape))
         {
             isCheck = false;
             Panel.GetComponent<Animator>().SetTrigger("doHide");
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+            GameManager.soundmanager.PlaySfxPlayer("Button");
         }
     }
 }

@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-public class SoundManager : MonoBehaviour
+
+public class SoundManager:MonoBehaviour
 {
     public AudioSource BgmPlayer;
     public AudioSource SfxPlayer;
-
-    public Slider SfxSlider;
-    public Slider BgmSlider;
 
     public float bgm;
     public float sfx;
@@ -35,13 +32,9 @@ public class SoundManager : MonoBehaviour
     AudioClip Unlock;
     void Start()
     {
-        SfxSlider.value = sfx;
-        BgmSlider.value = bgm;
-
-        Manager.Input.UpdateMethod -= OnUpdate;
-        Manager.Input.UpdateMethod += OnUpdate;
+        GameManager.update.UpdateMethod -= OnUpdate;
+        GameManager.update.UpdateMethod += OnUpdate;
     }
-
     public void PlaySfxPlayer(string audioClipName)
     {
         switch (audioClipName)
@@ -82,8 +75,6 @@ public class SoundManager : MonoBehaviour
 
     void OnUpdate()
     {
-        bgm = BgmSlider.value;
-        sfx = SfxSlider.value;
         BgmPlayer.volume = bgm;
         SfxPlayer.volume = sfx;
     }

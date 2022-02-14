@@ -28,6 +28,8 @@ public class Jelly : MonoBehaviour
     bool idle = true;
     bool walk = false;
 
+    SpriteRenderer spr;
+    Animator ani;
     public bool outside 
     { get
         {
@@ -50,16 +52,25 @@ public class Jelly : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spr = GetComponent<SpriteRenderer>();
+        ani = GetComponent<Animator>();
+
         if (topLeft == null) topLeft = GameObject.Find("TopLeft");
         if (bottomRight == null) bottomRight = GameObject.Find("BottomRight");
 
-        Manager.Input.UpdateMethod -= SetExp;
-        Manager.Input.UpdateMethod += SetExp;
-        Manager.Input.UpdateMethod -= SetState;
-        Manager.Input.UpdateMethod += SetState;
+        GameManager.update.UpdateMethod += SetExp;
+        GameManager.update.UpdateMethod += SetState;
     }
 
-
+    private void OnDestroy()
+    {   
+        if(GameManager.update == null)
+        {
+            return;
+        }
+        GameManager.update.UpdateMethod -= SetExp;
+        GameManager.update.UpdateMethod -= SetState;
+    }
 
     void SetNextSecond()
     {
@@ -86,9 +97,9 @@ public class Jelly : MonoBehaviour
         speedX = Random.Range(-(Mathf.Min(possibleLeft, speed)), (Mathf.Min(possibleRight, speed)));  //가중치에 따라 확률이 달라짐
         speedY = Random.Range(-(Mathf.Min(possibleBottom, speed)), (Mathf.Min(possibleTop, speed)));
 
-        GetComponent<SpriteRenderer>().flipX = speedX < 0;
+        spr.flipX = speedX < 0;
 
-        this.GetComponent<Animator>().SetBool("isWalk", true);
+        this.ani.SetBool("isWalk", true);
     }
 
 
@@ -104,18 +115,18 @@ public class Jelly : MonoBehaviour
         {
             level = level + 1;
             exp = 0;
-            GameManager.ChangeAc(this.GetComponent<Animator>(), level);
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Grow");
+            GameManager.ChangeAc(this.ani, level);
+            GameManager.soundmanager.PlaySfxPlayer("Grow");
         };
     }
 
     public void Touch()
     {
-        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Touch");
+        GameManager.soundmanager.PlaySfxPlayer("Touch");
         exp += 1;
-        GameObject.Find("LeftText").GetComponent<GelatinCoin>().GetGelatin(id + 1, level);
-        GetComponent<Animator>().SetBool("isWalk", false);
-        GetComponent<Animator>().SetTrigger("doTouch");
+        GameManager.manager.gelatin += (id + 1) * level * GameManager.manager.clickLevel;
+        ani.SetBool("isWalk", false);
+        ani.SetTrigger("doTouch");
         speedX = 0;
         speedY = 0;
         //다음 시간으로 맞추기!
@@ -132,7 +143,7 @@ public class Jelly : MonoBehaviour
             if (idle == true)
             {
                 walk = false;
-                this.GetComponent<Animator>().SetBool("isWalk", false);
+                this.ani.SetBool("isWalk", false);
                 idle = false;
             }
             else if (idle == false)

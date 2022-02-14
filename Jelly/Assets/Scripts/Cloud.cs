@@ -10,8 +10,8 @@ public class Cloud : MonoBehaviour
 
     void Start()
     {
-        Manager.Input.UpdateMethod -= OnUpdate;
-        Manager.Input.UpdateMethod += OnUpdate;
+        GameManager.update.UpdateMethod -= OnUpdate;
+        GameManager.update.UpdateMethod += OnUpdate;
     }
 
 

@@ -34,8 +34,7 @@ public class PlantPanel : MonoBehaviour
 
     public void Num()
     {
-        GoldCoin goldCoin = GameObject.Find("RightText").GetComponent<GoldCoin>();
-        if (goldCoin.gold >= GameManager.manager.numGoldList[GameManager.manager.numLevel])
+        if (GameManager.manager.gold >= GameManager.manager.numGoldList[GameManager.manager.numLevel])
         {
             if (GameManager.manager.numLevel >= GameManager.manager.numGoldList.Length - 2)
             {
@@ -44,23 +43,22 @@ public class PlantPanel : MonoBehaviour
                 numButton.gameObject.SetActive(false);
                 return;
             }
-            goldCoin.gold = goldCoin.gold - GameManager.manager.numGoldList[GameManager.manager.numLevel];
+            GameManager.manager.gold = GameManager.manager.gold - GameManager.manager.numGoldList[GameManager.manager.numLevel];
             GameManager.manager.numLevel += 1;
             numSubText.text = $"젤리수용량 {GameManager.manager.numLevel*2}";
             numButtonText.text = $"{GameManager.manager.numGoldList[GameManager.manager.numLevel]}";
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Unlock");
+            GameManager.soundmanager.PlaySfxPlayer("Unlock");
         }
         else
         {
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
+            GameManager.soundmanager.PlaySfxPlayer("Fail");
             NoticeManager.Msg("notGold");
         }
     }
 
     public void Click()
     {
-        GoldCoin goldCoin = GameObject.Find("RightText").GetComponent<GoldCoin>();
-        if (goldCoin.gold >= GameManager.manager.clickGoldList[GameManager.manager.clickLevel])
+        if (GameManager.manager.gold >= GameManager.manager.clickGoldList[GameManager.manager.clickLevel])
         {
             if (GameManager.manager.clickLevel >= GameManager.manager.clickGoldList.Length - 2)
             {
@@ -69,15 +67,15 @@ public class PlantPanel : MonoBehaviour
                 clickButton.gameObject.SetActive(false);
                 return;
             }
-            goldCoin.gold = goldCoin.gold - GameManager.manager.clickGoldList[GameManager.manager.clickLevel];
+            GameManager.manager.gold = GameManager.manager.gold - GameManager.manager.clickGoldList[GameManager.manager.clickLevel];
             GameManager.manager.clickLevel += 1;
             clickSubText.text = $"클릭생산량 x {GameManager.manager.clickLevel}";
             clickButtonText.text = $"{GameManager.manager.clickGoldList[GameManager.manager.clickLevel]}";
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Unlock");
+            GameManager.soundmanager.PlaySfxPlayer("Unlock");
         }
         else
         {
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
+            GameManager.soundmanager.PlaySfxPlayer("Fail");
             NoticeManager.Msg("notGold");
         }
     }

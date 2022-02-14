@@ -13,8 +13,8 @@ public class ButtonOption : MonoBehaviour
     {
         jellyButtonPanel = GameObject.Find("JellyButton").GetComponent<ButtonPanel>();
         plantButtonPanel = GameObject.Find("PlantButton").GetComponent<ButtonPanel>();
-        Manager.Input.UpdateMethod -= OnUpdate;
-        Manager.Input.UpdateMethod += OnUpdate;
+        GameManager.update.UpdateMethod -= OnUpdate;
+        GameManager.update.UpdateMethod += OnUpdate;
     }
 
 
@@ -24,7 +24,7 @@ public class ButtonOption : MonoBehaviour
         {
             Time.timeScale = 1;
             panel.SetActive(false);
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseOut");
+            GameManager.soundmanager.PlaySfxPlayer("PauseOut");
         }
         else if (jellyButtonPanel.isCheck || plantButtonPanel.isCheck)
         {
@@ -32,14 +32,14 @@ public class ButtonOption : MonoBehaviour
             {
                 jellyButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
                 jellyButtonPanel.isCheck = false;
-                GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+                GameManager.soundmanager.PlaySfxPlayer("Button");
             }
 
             if (plantButtonPanel.isCheck)
             {
                 plantButtonPanel.Panel.GetComponent<Animator>().SetTrigger("doHide");
                 plantButtonPanel.isCheck = false;
-                GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+                GameManager.soundmanager.PlaySfxPlayer("Button");
             }
         }
         else
@@ -51,7 +51,7 @@ public class ButtonOption : MonoBehaviour
     IEnumerator Panel()
     {
         panel.SetActive(true);
-        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseIn");
+        GameManager.soundmanager.PlaySfxPlayer("PauseIn");
         yield return new WaitForSeconds(0.2f);
         if (panel.activeInHierarchy)
         {
@@ -62,7 +62,7 @@ public class ButtonOption : MonoBehaviour
     public void Exit()
     {     
         timer = timer +Time.unscaledTime;
-        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("PauseOut");
+        GameManager.soundmanager.PlaySfxPlayer("PauseOut");
         if (timer > 0.5f)
         {
             Debug.Log("게임 종료");

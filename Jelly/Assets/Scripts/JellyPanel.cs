@@ -21,7 +21,7 @@ public class JellyPanel : MonoBehaviour
     void Start()
     {
 
-        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        manager = GameManager.manager;
         Page();
     }
 
@@ -34,7 +34,7 @@ public class JellyPanel : MonoBehaviour
         }
         page = page - 1;
         Page();
-        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+        GameManager.soundmanager.PlaySfxPlayer("Button");
     }
 
     public void PageUp()
@@ -45,7 +45,7 @@ public class JellyPanel : MonoBehaviour
         }
         page = page + 1;
         Page();
-        GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Button");
+        GameManager.soundmanager.PlaySfxPlayer("Button");
     }
 
     void Page()
@@ -71,18 +71,16 @@ public class JellyPanel : MonoBehaviour
 
     public void Unlock()
     {
-        GelatinCoin gelCoin = GameObject.Find("LeftText").GetComponent<GelatinCoin>();
-
-        int gel = gelCoin.gelatin;
+        
+        int gel = GameManager.manager.gelatin;
         int price = manager.jellyGelatinList[page];
 
         if (gel >= price)
         {
-            gelCoin.gelatin = gelCoin.gelatin - price;
+            GameManager.manager.gelatin = GameManager.manager.gelatin - price;
             manager.jellyUnlockList[page] = true;
             Page();
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Unlock");
-
+            GameManager.soundmanager.PlaySfxPlayer("Unlock");
             
             for(int i = 0; i< manager.jellyUnlockList.Length; i++)
             {
@@ -101,7 +99,7 @@ public class JellyPanel : MonoBehaviour
         }
         else
         {
-            GameObject.Find("SoundManager").GetComponent<SoundManager>().PlaySfxPlayer("Fail");
+            GameManager.soundmanager.PlaySfxPlayer("Fail");
             NoticeManager.Msg("notGelatin");
         }
     }

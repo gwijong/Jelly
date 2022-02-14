@@ -13,8 +13,8 @@ public class CameraRay : MonoBehaviour
     // Update is called once per frame
     private void Start()
     {
-        Manager.Input.UpdateMethod -= OnUpdate;
-        Manager.Input.UpdateMethod += OnUpdate;
+        GameManager.update.UpdateMethod -= OnUpdate;
+        GameManager.update.UpdateMethod += OnUpdate;
     }
 
     void Touch()
